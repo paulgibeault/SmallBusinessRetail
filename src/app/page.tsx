@@ -1,5 +1,8 @@
-'use client'
-
+import type {Metadata} from 'next';
+export const metadata: Metadata = {
+  title: 'Treasure Valley Treats',
+  description: 'Your Local Treasure Valley Bakery',
+};
 import Link from 'next/link';
 
 export default function Home() {
