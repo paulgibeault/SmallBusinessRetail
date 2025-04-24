@@ -14,6 +14,12 @@
 - Clean and simple layout for easy navigation, prioritizing clear graphics and subtle background imagery.
 - Use clear, modern icons with a slightly rounded design to highlight dietary options (GF/Vegan) and other features.
 
+## Dependencies
+
+- react-icons: For using a wide variety of icons.
+- @fortawesome/fontawesome-svg-core: For using font awesome icons.
+- @fortawesome/free-solid-svg-icons: For using solid font awesome icons.
+
 ## Original User Request:
 Okay, this sounds like a fantastic and delicious venture! Here's a breakdown of how BoiseBakedGoods.com could be conceptualized based on your description, focusing on the platform structure, features, and community building:
 
