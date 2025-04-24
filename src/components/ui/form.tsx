@@ -147,10 +147,26 @@ const FormMessage = React.forwardRef<
   React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, children, ...props }, ref) => {
   const { error, formMessageId } = useFormField()
-  const body = error ? String(error?.message ?? "") : children
+  const shouldDisplayError = !!error
+  let messageToDisplay: React.ReactNode = children;
 
-  if (!body) {
-    return null
+  if (shouldDisplayError) {
+    if (typeof error === "string") {
+      messageToDisplay = error;
+    } else if (typeof error === 'object' && error !== null && "message" in error) {
+      messageToDisplay = error.message
+    } else {
+      messageToDisplay = null
+    }
+
+    if(!messageToDisplay) {
+      return null;
+    }
+  } else if(!children) {
+    return null;
+  }
+  if (!messageToDisplay) {
+      return null
   }
 
   return (
@@ -160,7 +176,7 @@ const FormMessage = React.forwardRef<
       className={cn("text-sm font-medium text-destructive", className)}
       {...props}
     >
-      {body}
+      {messageToDisplay}
     </p>
   )
 })

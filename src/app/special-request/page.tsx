@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -17,6 +17,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { cn } from '@/lib/utils';
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 const formSchema = z.object({
@@ -38,23 +39,38 @@ export default function SpecialRequestPage() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: '',
-      email: '',
-      date: new Date(),
-      message: '',
+      name: "",
+      email: "",
+      date: null,
+      message: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-  }
+  const { handleSubmit, setValue, getValues } = form;
+
+  useEffect(() => {
+    const initialDate = getValues("date")
+
+    if (!initialDate) {
+      setValue("date", new Date());
+    }
+  }, [setValue]);
+  const handleFormSubmit = (values: z.infer<typeof formSchema>) => {
+    console.log("Form submitted:", values);
+  };
+
+  useEffect(() => {
+    // This will only run after the component has rendered
+    form.handleSubmit(handleFormSubmit);
+  }, [form.handleSubmit])
+
 
   return (
     <div className="container py-10">
       <h1 className="text-3xl font-bold mb-6">Special Request</h1>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <FormField
+        <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-8">
+        <FormField
             control={form.control}
             name="name"
             render={({ field }) => (
@@ -67,7 +83,7 @@ export default function SpecialRequestPage() {
               </FormItem>
             )}
           />
-          <FormField
+        <FormField
             control={form.control}
             name="email"
             render={({ field }) => (
@@ -84,7 +100,7 @@ export default function SpecialRequestPage() {
               </FormItem>
             )}
           />
-           <FormField
+        <FormField
             control={form.control}
             name="date"
             render={({ field }) => (
@@ -118,11 +134,11 @@ export default function SpecialRequestPage() {
                     />
                   </PopoverContent>
                 </Popover>
-                <FormMessage />
+                 <FormMessage />
               </FormItem>
             )}
           />
-          <FormField
+        <FormField
             control={form.control}
             name="message"
             render={({ field }) => (
@@ -135,7 +151,7 @@ export default function SpecialRequestPage() {
               </FormItem>
             )}
           />
-          <Button type="submit">Submit</Button>
+        <Button type="submit">Submit</Button>
         </form>
       </Form>
     </div>
